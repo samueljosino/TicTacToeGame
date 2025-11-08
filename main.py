@@ -1,4 +1,22 @@
-def print_board(board):
+# Tic Tac Toe Game
+
+# empty board
+board = [" "] * 9
+
+print("Welcome to Tic Tac Toe!")
+print("The positions are numbered like this:")
+print(" 1 | 2 | 3 ")
+print("---+---+---")
+print(" 4 | 5 | 6 ")
+print("---+---+---")
+print(" 7 | 8 | 9 ")
+
+player = "X"
+winner = None
+turns = 0
+
+while True:
+    # show the board
     print("\n")
     print(f" {board[0]} | {board[1]} | {board[2]} ")
     print("---+---+---")
@@ -7,60 +25,46 @@ def print_board(board):
     print(f" {board[6]} | {board[7]} | {board[8]} ")
     print("\n")
 
-def check_winner(board, player):
-    # all possible win combinations
-    win_conditions = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8],  # rows
-        [0, 3, 6], [1, 4, 7], [2, 5, 8],  # columns
-        [0, 4, 8], [2, 4, 6]              # diagonals
-    ]
-    for combo in win_conditions:
-        if all(board[i] == player for i in combo):
-            return True
-    return False
+    # ask the player for a move
+    move = input(f"Player {player}, choose a position (1-9): ")
 
-def is_full(board):
-    return all(space != " " for space in board)
+    # check if it's a valid number
+    if not move.isdigit() or not (1 <= int(move) <= 9):
+        print("Invalid input! Please enter a number between 1 and 9.")
+        continue
 
-def main():
-    board = [" "] * 9
-    current_player = "X"
+    pos = int(move) - 1
 
-    print("Welcome to Tic Tac Toe!")
-    print("Positions are numbered 1–9 like this:")
-    print_board([str(i + 1) for i in range(9)])
+    # check if space is taken
+    if board[pos] != " ":
+        print("That space is already taken! Try again.")
+        continue
 
-    while True:
-        print_board(board)
-        move = input(f"Player {current_player}, choose a position (1–9): ")
+    # place the player's mark
+    board[pos] = player
+    turns += 1
 
-        # validate input
-        if not move.isdigit() or not (1 <= int(move) <= 9):
-            print("Invalid input. Please enter a number between 1 and 9.")
-            continue
+    # check if someone won
+    if (board[0] == board[1] == board[2] != " ") or \
+       (board[3] == board[4] == board[5] != " ") or \
+       (board[6] == board[7] == board[8] != " ") or \
+       (board[0] == board[3] == board[6] != " ") or \
+       (board[1] == board[4] == board[7] != " ") or \
+       (board[2] == board[5] == board[8] != " ") or \
+       (board[0] == board[4] == board[8] != " ") or \
+       (board[2] == board[4] == board[6] != " "):
+        winner = player
+        break
 
-        pos = int(move) - 1
-        if board[pos] != " ":
-            print("That spot is already taken. Try again.")
-            continue
+    # check if it's a tie
+    if turns == 9:
+        break
 
-        # make the move
-        board[pos] = current_player
+    # switch player
+    player = "O" if player == "X" else "X"
 
-        # check for win
-        if check_winner(board, current_player):
-            print_board(board)
-            print(f"🎉 Player {current_player} wins!")
-            break
-
-        # check for tie
-        if is_full(board):
-            print_board(board)
-            print("It's a tie!")
-            break
-
-        # switch player
-        current_player = "O" if current_player == "X" else "X"
-
-if __name__ == "__main__":
-    main()
+# game over
+if winner:
+    print(f"🎉 Player {winner} wins!")
+else:
+    print("It's a tie!")
