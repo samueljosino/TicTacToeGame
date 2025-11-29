@@ -12,6 +12,16 @@ print(" 7 | 8 | 9 ")
 playerX= input("Enter your name, player X: ")
 playerO= input("Enter your name, player O: ")
 
+#Let player choose X or O
+while True:
+    choice = input(f"{playerX}, do you want to be X or O? ").upper().strip()
+    if choice in ["X", "O"]:
+        break
+    print("Invalid choice! Please choose X or O.")
+
+player1_marker = choice                                  
+player2_marker = "O" if choice == "X" else "X"
+
 # Main game loop (replay)
 while True:
     # empty board and initial game state
