@@ -92,6 +92,10 @@ print(" 4 | 5 | 6 ")
 print("---+---+---")
 print(" 7 | 8 | 9 ")
 
+# Ask the players for their names
+playerX= input("Enter your name, player X: ")
+playerO= input("Enter your name, player O: ")
+
 # Main game loop (replay)
 while True:
     # empty board and initial game state
@@ -111,8 +115,14 @@ while True:
         print(f" {board[6]} | {board[7]} | {board[8]} ")
         print("\n")
 
+        # Pick the players name based on the current player (X or O)
+        if player == "X":
+            current_player = playerX
+        else:
+            current_player = playerO
+            
         # ask the player for a move
-        move = input(f"Player {player}, choose a position (1-9): ")
+        move = input(f"Player {current_player} ({player}), choose a position (1-9): ")
 
         # check if it's a valid number
         if not move.isdigit() or not (1 <= int(move) <= 9):
@@ -151,7 +161,7 @@ while True:
 
     # Display match result (after single game ends)
     if winner:
-        print(f"🎉 Player {winner} wins!")
+        print(f"🎉 Player {current_player} wins!")
     else:
         print("It's a tie!")
 
