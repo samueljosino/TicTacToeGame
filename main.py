@@ -1,5 +1,3 @@
-# Tic Tac Toe Game
-
 print("Welcome to Tic Tac Toe!")
 print("The positions are numbered like this:")
 print(" 1 | 2 | 3 ")
@@ -9,24 +7,27 @@ print("---+---+---")
 print(" 7 | 8 | 9 ")
 
 # Ask the players for their names
-playerX= input("Enter your name, player X: ")
-playerO= input("Enter your name, player O: ")
+player1 = input("Enter name for Player 1: ")
+player2 = input("Enter name for Player 2: ")
 
-#Let player choose X or O
+# Let player1 choose X or O
 while True:
-    choice = input(f"{playerX}, do you want to be X or O? ").upper().strip()
+    choice = input(f"{player1}, do you want to be X or O? ").upper().strip()
     if choice in ["X", "O"]:
         break
     print("Invalid choice! Please choose X or O.")
 
-player1_marker = choice                                  
+player1_marker = choice
 player2_marker = "O" if choice == "X" else "X"
+
+print(f"{player1} is {player1_marker}")
+print(f"{player2} is {player2_marker}")
 
 # Main game loop (replay)
 while True:
     # empty board and initial game state
     board = [" "] * 9
-    player = "X"
+    current_marker = "X"  # X always starts
     winner = None
     turns = 0
 
@@ -41,14 +42,13 @@ while True:
         print(f" {board[6]} | {board[7]} | {board[8]} ")
         print("\n")
 
-        # Pick the players name based on the current player (X or O)
-        if player == "X":
-            current_player = playerX
+        # pick the player based on marker
+        if current_marker == player1_marker:
+            current_player = player1
         else:
-            current_player = playerO
-            
+            current_player = player2
         # ask the player for a move
-        move = input(f"Player {current_player} ({player}), choose a position (1-9): ")
+        move = input(f"{current_player} ({current_marker}), choose a position (1-9): ")
 
         # check if it's a valid number
         if not move.isdigit() or not (1 <= int(move) <= 9):
@@ -63,19 +63,21 @@ while True:
             continue
 
         # place the player's mark
-        board[pos] = player
+        board[pos] = current_marker
         turns += 1
 
         # check if someone won
-        if (board[0] == board[1] == board[2] != " ") or \
-           (board[3] == board[4] == board[5] != " ") or \
-           (board[6] == board[7] == board[8] != " ") or \
-           (board[0] == board[3] == board[6] != " ") or \
-           (board[1] == board[4] == board[7] != " ") or \
-           (board[2] == board[5] == board[8] != " ") or \
-           (board[0] == board[4] == board[8] != " ") or \
-           (board[2] == board[4] == board[6] != " "):
-            winner = player
+        if (
+            (board[0] == board[1] == board[2] != " ")
+            or (board[3] == board[4] == board[5] != " ")
+            or (board[6] == board[7] == board[8] != " ")
+            or (board[0] == board[3] == board[6] != " ")
+            or (board[1] == board[4] == board[7] != " ")
+            or (board[2] == board[5] == board[8] != " ")
+            or (board[0] == board[4] == board[8] != " ")
+            or (board[2] == board[4] == board[6] != " ")
+        ):
+            winner = current_player
             break
 
         # check if it's a tie
@@ -83,11 +85,11 @@ while True:
             break
 
         # switch player
-        player = "O" if player == "X" else "X"
+        current_marker = "O" if current_marker == "X" else "X"
 
     # Display match result (after single game ends)
     if winner:
-        print(f"🎉 Player {current_player} wins!")
+        print(f"🎉 Player {winner} wins!")
     else:
         print("It's a tie!")
 
@@ -98,10 +100,3 @@ while True:
     if play_again != "y":
         print("Thanks for playing!")
         break
-#the end
-# test commit by Shadi
-    
-    
-
-
-    
